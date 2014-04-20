@@ -10,6 +10,7 @@ import java.util.Map;
 import com.pm2d5.R;
 import com.pm2d5.db.DBService;
 import com.pm2d5.include.Macro;
+import com.pm2d5.include.Values;
 import com.pm2d5.lib.PullToRefreshBase.OnRefreshListener;
 import com.pm2d5.lib.StationItem;
 import com.pm2d5.lib.StationsListAdapter;
@@ -42,7 +43,7 @@ public class StationsFragment extends Fragment {
 		refreshList = (PullToRefreshListView)view.findViewById(R.id.stations_list);
 		list = refreshList.getRefreshableView();
 		
-		ArrayList<StationData> stationDatas = dbService.GetStations("北京");
+		ArrayList<StationData> stationDatas = dbService.GetStations(Values.currentCity);
 		DisplayStations(stationDatas);
 
 		refreshList.setOnRefreshListener(new OnRefreshListener() {
@@ -51,7 +52,7 @@ public class StationsFragment extends Fragment {
 			public void onRefresh() {
 				// TODO Auto-generated method stub
 				Map<String, String> map = new HashMap<String, String>();
-				map.put("city", "beijing");
+				map.put("city", Values.currentCity);
 				new GetStationsThread(handler, tag, map).start();
 			}
 			
@@ -73,7 +74,7 @@ public class StationsFragment extends Fragment {
 			case Macro.FETCH_SUCCESS:
 				Data data = (Data) msg.obj;
 				theAct.dbService.SaveDatas(data.getStationDataList());
-				ArrayList<StationData> stationDatas = theAct.dbService.GetStations("北京");
+				ArrayList<StationData> stationDatas = theAct.dbService.GetStations(Values.currentCity);
 				theAct.DisplayStations(stationDatas);
 				Toast.makeText(theAct.getActivity(), "刷新成功", Toast.LENGTH_SHORT).show();
 				break;

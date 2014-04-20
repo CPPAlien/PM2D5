@@ -2,7 +2,7 @@ package com.pm2d5.include;
 
 public class Macro {
 	public final static String TOKEN = "6o3mHY9i1DuQNZLBpcqx";
-	public final static String DEFAULT_CITY = "北京";
+	public final static String DEFAULT_CITY = "beijing";
 	
 	/*For DB*/
 	public final static String DB_NAME = "pm2d5.db";
@@ -10,9 +10,11 @@ public class Macro {
 	public final static String DB_TABLE_CITY = "pm2d5_city";
 	public final static String DB_ELEMENT_CITYNAME = "cityName";
 	public final static String DB_ELEMENT_CITYVALUE = "cityValue";
+	public final static String DB_ELEMENT_TIMEPOINT = "timePoint";
 	public final static String DB_ELEMENT_STATIONNAME = "stationName";
 	public final static String DB_ELEMENT_STATIONVALUE = "stationValue";
 	public final static String DB_ELEMENT_STATIONCODE = "stationCode";
+	
 	
 	/*For View*/
 	public final static int SLIDEMENU_HOME = 0;

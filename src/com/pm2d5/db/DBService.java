@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.pm2d5.include.Macro;
 import com.pm2d5.net.StationData;
+import com.pm2d5.utils.EnChDict;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -40,8 +41,10 @@ public class DBService extends DaoHelper {
 					//站点名为空时，说明该条记录为该城市平均值,记入城市表
 					if (null == station.getPosition_name()) {
 						ContentValues values = new ContentValues();
-						values.put(Macro.DB_ELEMENT_CITYNAME, station.getArea());
+						/*获得到的记录为中文，需要转换为英文存储*/
+						values.put(Macro.DB_ELEMENT_CITYNAME, EnChDict.ChangeChToEn(station.getArea()));
 						values.put(Macro.DB_ELEMENT_CITYVALUE, station.getAqi());
+						values.put(Macro.DB_ELEMENT_TIMEPOINT, station.getTime_point());
 						long rows = db.update(Macro.DB_TABLE_CITY, values, 
 								Macro.DB_ELEMENT_CITYNAME + EQUAL,
 								new String[] { station.getArea() });
@@ -53,7 +56,7 @@ public class DBService extends DaoHelper {
 						values.put(Macro.DB_ELEMENT_STATIONCODE, station.getStation_code());
 						values.put(Macro.DB_ELEMENT_STATIONNAME, station.getPosition_name());
 						values.put(Macro.DB_ELEMENT_STATIONVALUE, station.getAqi());
-						values.put(Macro.DB_ELEMENT_CITYNAME, station.getArea());
+						values.put(Macro.DB_ELEMENT_CITYNAME, EnChDict.ChangeChToEn(station.getArea()));
 						long rows = db.update(Macro.DB_TABLE_STATION, values, 
 								Macro.DB_ELEMENT_STATIONCODE + EQUAL,
 								new String[] { station.getStation_code() });
@@ -120,6 +123,24 @@ public class DBService extends DaoHelper {
 			closeCursorAndDB(c, db);
 		}
 		return cityAqi;
-		
+	}
+	
+	public String GetLastTime(String cityName) {
+		SQLiteDatabase db = null;
+		Cursor c = null;
+		String timePoint = null;
+		try{
+			db = mDb.getWritableDatabase();
+			c = db.rawQuery(SELECT_FROM + Macro.DB_TABLE_CITY + WHERE + 
+					Macro.DB_ELEMENT_CITYNAME + EQUAL, new String[]{cityName});
+			if (c.moveToFirst()) {
+				timePoint = c.getString(c.getColumnIndex(Macro.DB_ELEMENT_TIMEPOINT));
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally{
+			closeCursorAndDB(c, db);
+		}
+		return timePoint;
 	}
 }

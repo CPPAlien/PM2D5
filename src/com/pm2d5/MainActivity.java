@@ -7,6 +7,8 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.pm2d5.include.Values;
+import com.pm2d5.utils.EnChDict;
 import com.pm2d5.view.SlideMenuView;
 
 public class MainActivity extends SherlockFragmentActivity {
@@ -38,9 +40,8 @@ public class MainActivity extends SherlockFragmentActivity {
 		
 		ActionBar ab = getSupportActionBar();
 		ab.setDisplayHomeAsUpEnabled(true);
-		ab.setTitle("abc");
+		ab.setTitle(EnChDict.ChangeEnToCh(Values.currentCity));
 		ab.setIcon(null);
-		
 	}
 	
 	@Override
@@ -75,4 +76,13 @@ public class MainActivity extends SherlockFragmentActivity {
 			super.onBackPressed();
 		}
 	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		finish();
+		super.onPause();
+	}
+	
+	
 }

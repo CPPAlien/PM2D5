@@ -62,9 +62,9 @@ public class MySqliteOpenHelper extends SQLiteOpenHelper {
 				//创建城市表
 				db.execSQL("CREATE TABLE IF NOT EXISTS " + Macro.DB_TABLE_CITY 
 						+ "( _id integer primary key autoincrement, "
-						+ Macro.DB_ELEMENT_CITYVALUE +" varchar, "
+						+ Macro.DB_ELEMENT_TIMEPOINT + " varchar, "
+						+ Macro.DB_ELEMENT_CITYVALUE + " varchar, "
 						+ Macro.DB_ELEMENT_CITYNAME + " varchar) ");
-				
 				db.setTransactionSuccessful();
 			}
 		}finally{

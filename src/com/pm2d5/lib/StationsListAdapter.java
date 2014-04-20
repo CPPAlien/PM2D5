@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.pm2d5.R;
 import com.pm2d5.include.Macro;
+import com.pm2d5.utils.DisplayRule;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -45,17 +46,7 @@ public class StationsListAdapter extends ArrayAdapter<StationItem>{
 	    if ((null != stationValue) && (!stationValue.equals(""))) {
 	    	int stationValueInt = Integer.parseInt(stationValue);
 	    	textValue.setText(stationValue);
-	    	if(stationValueInt <= Macro.LEVEL_A_AIR) {
-	    		textValue.setTextColor(Color.GREEN);
-	    	} else if (stationValueInt <= Macro.LEVEL_B_AIR) {
-	    		textValue.setTextColor(Color.BLUE);
-	    	} else if (stationValueInt <= Macro.LEVEL_C_AIR) {
-	    		textValue.setTextColor(Color.YELLOW);
-	    	} else if (stationValueInt <= Macro.LEVEL_D_AIR) {
-	    		textValue.setTextColor(Color.RED);
-	    	} else {
-	    		textValue.setTextColor(Color.MAGENTA);
-	    	}
+	    	textValue.setTextColor(DisplayRule.GetColor(stationValueInt));
 	    }
 	    
 		return rowView;
