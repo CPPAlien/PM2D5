@@ -38,16 +38,17 @@ public class DBService extends DaoHelper {
 		try {
 			if (list != null && list.size() > 0) {
 				for (StationData station : list) {
+					String cityEnName = EnChDict.ChangeChToEn(station.getArea());
 					//站点名为空时，说明该条记录为该城市平均值,记入城市表
 					if (null == station.getPosition_name()) {
 						ContentValues values = new ContentValues();
 						/*获得到的记录为中文，需要转换为英文存储*/
-						values.put(Macro.DB_ELEMENT_CITYNAME, EnChDict.ChangeChToEn(station.getArea()));
+						values.put(Macro.DB_ELEMENT_CITYNAME, cityEnName);
 						values.put(Macro.DB_ELEMENT_CITYVALUE, station.getAqi());
 						values.put(Macro.DB_ELEMENT_TIMEPOINT, station.getTime_point());
 						long rows = db.update(Macro.DB_TABLE_CITY, values, 
 								Macro.DB_ELEMENT_CITYNAME + EQUAL,
-								new String[] { station.getArea() });
+								new String[] { cityEnName });
 						if(rows <= 0){
 							rows = db.insert(Macro.DB_TABLE_CITY, null, values);
 						}
@@ -56,7 +57,7 @@ public class DBService extends DaoHelper {
 						values.put(Macro.DB_ELEMENT_STATIONCODE, station.getStation_code());
 						values.put(Macro.DB_ELEMENT_STATIONNAME, station.getPosition_name());
 						values.put(Macro.DB_ELEMENT_STATIONVALUE, station.getAqi());
-						values.put(Macro.DB_ELEMENT_CITYNAME, EnChDict.ChangeChToEn(station.getArea()));
+						values.put(Macro.DB_ELEMENT_CITYNAME, cityEnName);
 						long rows = db.update(Macro.DB_TABLE_STATION, values, 
 								Macro.DB_ELEMENT_STATIONCODE + EQUAL,
 								new String[] { station.getStation_code() });
